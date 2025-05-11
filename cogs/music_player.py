@@ -4,8 +4,25 @@ import asyncio
 import yt_dlp as youtube_dl 
 import logging
 import os
+import platform
 
 logger = logging.getLogger('discord_bot.music')
+
+def get_ffmpeg_path():
+    # Si estamos en Render (ambiente de producción)
+    if os.environ.get('RENDER'):
+        logger.info("Ejecutando en Render - usando ffmpeg del sistema")
+        return 'ffmpeg'  # En Render, ffmpeg estará en el PATH
+    
+    # Si estamos en Windows (desarrollo local)
+    if platform.system() == 'Windows':
+        local_path = r'C:\ffmpeg\bin\ffmpeg.exe' # Reemplaza con tu ruta actual
+        logger.info(f"Ejecutando en Windows - usando ffmpeg local: {local_path}")
+        return local_path
+    
+    # Fallback para otros sistemas
+    logger.info("Ejecutando en otro sistema - usando ffmpeg del sistema")
+    return 'ffmpeg'
 
 # Configuración de youtube-dl
 youtube_dl.utils.bug_reports_message = lambda: ''
@@ -25,8 +42,8 @@ ytdl_format_options = {
 }
 
 ffmpeg_options = {
-    'executable': r'C:\ffmpeg\bin\ffmpeg.exe',
-    'options': '-vn'
+    'options': '-vn',
+    'executable': get_ffmpeg_path(),
 }
 
 ytdl = youtube_dl.YoutubeDL(ytdl_format_options)
@@ -43,6 +60,7 @@ class YTDLSource(discord.PCMVolumeTransformer):
         self.thumbnail = data.get('thumbnail')
         self.webpage_url = data.get('webpage_url')
         self.uploader = data.get('uploader')
+        self.original = source
 
     @classmethod
     async def from_url(cls, url, *, loop=None, stream=False):
@@ -54,11 +72,7 @@ class YTDLSource(discord.PCMVolumeTransformer):
 
         filename = ytdl.prepare_filename(data)
 
-        if not os.path.exists(filename):
-            logger.error(f"❌ Archivo no encontrado: {filename}")
-            raise FileNotFoundError("El archivo de audio no se descargó correctamente.")
-
-        logger.info(f"🎧 Reproduciendo desde archivo descargado: {filename}")
+        # El error está aquí - falta pasar filename como parámetro
         return cls(discord.FFmpegPCMAudio(filename, **ffmpeg_options), data=data, filename=filename)
 
 
