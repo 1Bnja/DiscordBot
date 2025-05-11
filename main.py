@@ -3,6 +3,10 @@ from discord.ext import commands
 import os
 import logging
 from config import DISCORD_TOKEN, DISCORD_PREFIX
+import ssl
+import certifi
+
+ssl._create_default_https_context = ssl.create_default_context(cafile=certifi.where())
 
 # Configurar logging
 logging.basicConfig(
