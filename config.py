@@ -1,11 +1,7 @@
 import os
-from dotenv import load_dotenv
 import logging
 
 logger = logging.getLogger('discord_bot.config')
-
-# Cargar variables de entorno desde archivo .env
-load_dotenv('Token.env')
 
 # Credenciales de Discord
 DISCORD_TOKEN = os.getenv('DISCORD_TOKEN')
