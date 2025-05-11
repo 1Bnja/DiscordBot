@@ -1,0 +1,52 @@
+# Archivos específicos del bot
+config.py
+.env
+Token.env
+temp/
+*.mp3
+*.webm
+*.m4a
+*.ogg
+*.part
+*.mp4
+
+# Archivos de caché de Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Entornos virtuales
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Logs
+logs/
+*.log
+
+# Directorios de IDEs y editores
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
