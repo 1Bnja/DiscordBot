@@ -48,6 +48,9 @@ async def on_ready():
         await bot.load_extension('cogs.book_search')
         logger.info('Módulo cargado: book_search')
 
+        await bot.load_extension('cogs.global_commands')
+        logger.info('Módulo cargado: global_commands')
+
     except Exception as e:
         logger.error(f'Error al cargar módulos: {str(e)}')
 
