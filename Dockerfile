@@ -1,21 +1,22 @@
-FROM python:3.11-slim
+FROM python:3.9-bullseye
 
-# Instala ffmpeg y certificados del sistema
-RUN apt-get update && apt-get install -y \
-    ffmpeg \
-    ca-certificates \
-    curl \
- && update-ca-certificates \
- && rm -rf /var/lib/apt/lists/*
+# Instalar FFmpeg
+RUN apt-get update && \
+    apt-get install -y ffmpeg && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
-# Establecer certificado raíz explícitamente para Python
-ENV SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt
+# Crear el directorio del bot
+WORKDIR /usr/src/bot
 
-WORKDIR /app
-COPY . /app
+# Copiar requirements.txt primero
+COPY requirements.txt .
 
-# Instala pip + dependencias
+# Instalar dependencias de Python
 RUN pip install --no-cache-dir -r requirements.txt
-RUN pip install --no-cache-dir -U yt-dlp
 
+# Copiar el resto del código fuente
+COPY . .
+
+# Comando para iniciar el bot
 CMD ["python", "main.py"]
