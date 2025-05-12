@@ -2,11 +2,14 @@ import discord
 from discord.ext import commands
 import os
 import logging
-from config import DISCORD_TOKEN, DISCORD_PREFIX
 import ssl
 import certifi
+import os
 
 ssl._create_default_https_context = ssl.create_default_context(cafile=certifi.where())
+
+DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
+DISCORD_PREFIX = os.getenv("DISCORD_PREFIX", "!")
 
 # Configurar logging
 logging.basicConfig(
