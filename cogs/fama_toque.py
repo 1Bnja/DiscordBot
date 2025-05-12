@@ -104,6 +104,7 @@ class FamaToque(commands.Cog):
             # Verificar si es un número de 4 dígitos
             if content.isdigit() and len(content) == 4:
                 await self.process_guess(message, content)
+        await self.bot.process_commands(message)
     
     async def process_guess(self, message, guess):
         """Procesa un intento de adivinar el número"""
