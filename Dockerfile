@@ -1,20 +1,20 @@
-# Imagen base ligera con Python
 FROM python:3.11-slim
 
-# Instalar ffmpeg y certificados SSL
+# Instala ffmpeg y certificados del sistema
 RUN apt-get update && apt-get install -y \
     ffmpeg \
     ca-certificates \
+    curl \
+ && update-ca-certificates \
  && rm -rf /var/lib/apt/lists/*
 
-# Crear carpeta de trabajo
-WORKDIR /app
+# Establecer certificado raíz explícitamente para Python
+ENV SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt
 
-# Copiar todos los archivos del proyecto
+WORKDIR /app
 COPY . /app
 
-# Instalar dependencias de Python
+# Instala pip + dependencias
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Ejecutar el bot
 CMD ["python", "main.py"]
