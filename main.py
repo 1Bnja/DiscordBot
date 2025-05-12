@@ -48,7 +48,7 @@ async def on_ready():
         await bot.load_extension('cogs.book_search')
         logger.info('Módulo cargado: book_search')
 
-        await bot.load_extension('cogs.global_commands')
+        await bot.load_extension('cogs.comandos_globales')
         logger.info('Módulo cargado: global_commands')
 
     except Exception as e:
