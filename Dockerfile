@@ -16,5 +16,6 @@ COPY . /app
 
 # Instala pip + dependencias
 RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -U yt-dlp
 
 CMD ["python", "main.py"]
