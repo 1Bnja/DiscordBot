@@ -3,12 +3,14 @@ from discord.ext import commands
 import os
 import logging
 import ssl
-from config import DISCORD_TOKEN, DISCORD_PREFIX
 import certifi
 import os
 
 ssl._create_default_https_context = ssl.create_default_context(cafile=certifi.where())
 # Importar los módulos de cogs
+
+DISCORD_TOKEN = os.environ.get("DISCORD_TOKEN")
+DISCORD_PREFIX = os.environ.get("DISCORD_PREFIX", "!") 
 
 # Configurar logging
 logging.basicConfig(
